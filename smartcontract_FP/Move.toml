@@ -1,0 +1,10 @@
+[package]
+name = "smartcontract_fp"
+edition = "2024"
+authors = ["Frontier Pulse Team"]
+license = "MIT"
+
+[dependencies]
+
+[addresses]
+smartcontract_fp = "0x0"
