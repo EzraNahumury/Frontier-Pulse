@@ -51,7 +51,7 @@ export default function Footer() {
               </p>
               <div className="flex flex-col gap-2">
                 {[
-                  ["Launch App", "https://frontierpulse.xyz"],
+                  ["Launch App", "https://frontier-pulse-nine.vercel.app/"],
                   ["EVE Frontier", "https://evefrontier.com"],
                   ["Sui Blockchain", "https://sui.io"],
                   ["World API Docs", "https://docs.evefrontier.com/SwaggerWorldApi"],

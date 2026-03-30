@@ -10,7 +10,7 @@ export default function Hero() {
         {/* Launch App — top right, fixed to viewport */}
         <div className="fixed top-5 right-16 z-50">
           <a
-            href="https://frontierpulse.xyz"
+            href="https://frontier-pulse-nine.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-5 py-2 text-sm font-medium rounded-lg border border-white/[0.1] text-text-muted hover:text-text-primary hover:border-white/[0.2] transition-all"
@@ -72,7 +72,7 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
             <a
-              href="https://frontierpulse.xyz"
+              href="https://frontier-pulse-nine.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="group px-8 py-3.5 rounded-lg font-semibold text-bg-primary bg-white hover:bg-white/90 transition-all hover:scale-105"
@@ -81,10 +81,12 @@ export default function Hero() {
               <span className="inline-block ml-1.5 transition-transform group-hover:translate-x-1">&rarr;</span>
             </a>
             <a
-              href="#architecture"
+              href="https://docs-frontierpulse.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-8 py-3.5 rounded-lg font-semibold text-text-secondary border border-white/10 hover:border-white/20 hover:text-text-primary transition-all"
             >
-              How It Works
+              Documentation
             </a>
           </div>
 

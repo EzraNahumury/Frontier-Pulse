@@ -84,7 +84,7 @@ export default function Navbar() {
             Docs
           </a>
           <a
-            href="https://frontierpulse.xyz"
+            href="https://frontier-pulse-nine.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-5 py-2 text-sm font-medium rounded-lg bg-white text-bg-primary hover:bg-white/90 transition-all"
@@ -132,7 +132,7 @@ export default function Navbar() {
               ))}
               <div className="h-px bg-white/[0.06] my-2" />
               <a
-                href="https://docs.evefrontier.com/SwaggerWorldApi"
+                href="https://docs-frontierpulse.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-text-muted hover:text-text-primary py-2"
@@ -140,7 +140,7 @@ export default function Navbar() {
                 Documentation
               </a>
               <a
-                href="https://frontierpulse.xyz"
+                href="https://frontier-pulse-nine.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-1 px-4 py-2.5 text-sm font-medium rounded-lg bg-white text-bg-primary text-center"

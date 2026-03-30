@@ -48,7 +48,7 @@ export default function CTA() {
 
         <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
           <a
-            href="https://frontierpulse.xyz"
+            href="https://frontier-pulse-nine.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="group px-8 py-4 rounded-lg font-semibold text-bg-primary bg-white hover:bg-white/90 transition-all hover:scale-105 text-lg"
@@ -57,7 +57,7 @@ export default function CTA() {
             <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">&rarr;</span>
           </a>
           <a
-            href="https://docs.evefrontier.com/SwaggerWorldApi"
+            href="https://docs-frontierpulse.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-4 rounded-lg font-semibold text-text-secondary border border-white/10 hover:border-white/20 hover:text-text-primary transition-all text-lg"
@@ -79,7 +79,7 @@ export default function CTA() {
 
         {/* Footer info merged into last slide */}
         <motion.div variants={fadeUp} className="mt-14 pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="https://frontierpulse.xyz" target="_blank" rel="noopener noreferrer" className="text-xs text-text-muted hover:text-text-primary transition-colors">App</a>
+          <a href="https://frontier-pulse-nine.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-xs text-text-muted hover:text-text-primary transition-colors">App</a>
           <span className="text-white/10 hidden sm:block">&middot;</span>
           <a href="https://evefrontier.com" target="_blank" rel="noopener noreferrer" className="text-xs text-text-muted hover:text-text-primary transition-colors">EVE Frontier</a>
           <span className="text-white/10 hidden sm:block">&middot;</span>
