@@ -37,7 +37,7 @@ const team = [
 ];
 
 const links = [
-  { title: "Live DApp", desc: "Try Frontier Pulse in your browser", href: "#", icon: Globe, disabled: true },
+  { title: "Live DApp", desc: "Try Frontier Pulse in your browser", href: "https://frontier-pulse-nine.vercel.app/", icon: Globe, disabled: false },
   { title: "Demo Video", desc: "Watch the full product walkthrough", href: "#", icon: Video, disabled: true },
   { title: "GitHub Repository", desc: "View the source code", href: "https://github.com/EzraNahumury/Frontier-Pulse", icon: Github, disabled: false },
   { title: "Hackathon Page", desc: "EVE Frontier x Sui Hackathon 2026", href: "https://deepsurge.xyz/evefrontier2026", icon: ExternalLink, disabled: false },
