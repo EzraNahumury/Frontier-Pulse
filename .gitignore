@@ -38,3 +38,8 @@ yarn-error.log*
 
 # Sui Move build artifacts
 smartcontract_FP/build/
+
+
+RESEARCH_EVE_FRONTIER_SUI.md
+PROJECT_README.md
+.claude
