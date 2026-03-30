@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-border: var(--bd);
+  --color-muted: var(--mt);
+  --color-primary: var(--pri);
+  --color-secondary: var(--sec);
+  --color-accent: #00e5ff;
+  --color-pulse-green: #00ff88;
+  --color-pulse-amber: #ff9800;
+  --color-pulse-red: #ff3d3d;
+  --color-space-950: #05080f;
+  --color-space-900: #070b14;
+  --color-space-800: #0d1321;
+  --color-space-700: #131b2e;
+  --color-space-600: #1a2340;
+  --font-sans: var(--font-space-grotesk), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-desc: var(--font-space-grotesk), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --bg: #05080f;
+  --fg: #b8c7d6;
+  --surface: #070b14;
+  --surface-alt: #0d1321;
+  --bd: rgba(0, 229, 255, 0.1);
+  --mt: #5c6b7a;
+  --pri: #00e5ff;
+  --sec: #7c3aed;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: #b8c7d6;
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #e2eaf2;
+}
+
+strong, b {
+  color: #e2eaf2;
+}
+
+::selection { background: rgba(0, 229, 255, 0.2); color: #e2eaf2; }
+
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
+
+/* ── Section spacing ── */
+article > section + section { margin-top: 3.5rem; }
+article > section:first-of-type { margin-top: 0; }
+
+/* ── Code ── */
+code { font-family: var(--font-mono); font-size: 0.85em; }
+:not(pre) > code {
+  background: rgba(0, 229, 255, 0.06);
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.12);
+  font-weight: 500;
+}
+pre {
+  background: #070b14 !important;
+  border: 1px solid rgba(0, 229, 255, 0.08);
+  border-radius: 10px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: #b8c7d6;
+}
+pre code { background: none; border: none; padding: 0; font-weight: 400; color: #b8c7d6; }
+
+/* ── Table ── */
+table { width: 100%; border-collapse: collapse; border: 1px solid rgba(0, 229, 255, 0.1); border-radius: 8px; overflow: hidden; }
+th {
+  text-align: left; font-weight: 600; padding: 0.65rem 1rem;
+  border-bottom: 2px solid rgba(0, 229, 255, 0.12); color: #00e5ff; background: #070b14;
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em;
+}
+td { padding: 0.65rem 1rem; border-bottom: 1px solid rgba(0, 229, 255, 0.06); color: #b8c7d6; font-size: 0.88rem; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(0, 229, 255, 0.03); }
+
+/* ── Page description subtitle ── */
+.page-desc {
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+}
+
+/* ── Links — only apply to inline text links, not buttons ── */
+article a:not([class*="bg-"]) { color: #00e5ff; }
+article a:not([class*="bg-"]):hover { color: #33ecff; }
