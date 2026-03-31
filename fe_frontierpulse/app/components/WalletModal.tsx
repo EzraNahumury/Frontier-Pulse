@@ -79,7 +79,7 @@ const RECOMMENDED_WALLETS: { name: string; url: string; icon: string | (() => Re
     icon: WALLET_ICON_PATHS.eveVault,
   },
   {
-    name: "Sui Wallet",
+    name: "Slush",
     url: "https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil",
     icon: WALLET_ICON_PATHS.suiWallet,
   },
