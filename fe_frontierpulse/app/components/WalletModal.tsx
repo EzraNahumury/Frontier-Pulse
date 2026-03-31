@@ -4,23 +4,9 @@ import { useWallets, useConnectWallet } from "@mysten/dapp-kit";
 import { createPortal } from "react-dom";
 import { useUIStore } from "@/lib/store";
 
-function SuiWalletIcon() {
+function WalletImg({ src, alt }: { src: string; alt: string }) {
   return (
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-      <rect width="40" height="40" rx="10" fill="#4DA2FF" />
-      <path d="M27.5 14.5c-1.8-1.8-4.2-2.8-6.8-2.8-1.7 0-3.3.4-4.7 1.3l6.3 6.3c.4.4.4 1 0 1.4l-6.3 6.3c1.4.8 3 1.3 4.7 1.3 5.2 0 9.5-4.3 9.5-9.5 0-2.5-1-5-2.7-6.8v2.5z" fill="white" />
-      <path d="M12.5 25.5c1.8 1.8 4.2 2.8 6.8 2.8.6 0 1.2-.1 1.8-.2l-6.5-6.5c-.4-.4-.4-1 0-1.4l6.5-6.5c-.6-.1-1.2-.2-1.8-.2-5.2 0-9.5 4.3-9.5 9.5 0 2.5 1 5 2.7 6.8v-4.3z" fill="white" opacity="0.7" />
-    </svg>
-  );
-}
-
-function SuietIcon() {
-  return (
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-      <rect width="40" height="40" rx="10" fill="#6FBCF0" />
-      <circle cx="20" cy="17" r="6" fill="white" />
-      <path d="M12 28c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-    </svg>
+    <img src={src} alt={alt} width={40} height={40} className="rounded-[10px]" />
   );
 }
 
@@ -58,24 +44,12 @@ function MartianIcon() {
   );
 }
 
-function EVEFrontierVaultIcon() {
-  return (
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-      <rect width="40" height="40" rx="10" fill="#0D0D0D" />
-      <defs>
-        <linearGradient id="eveVaultGrad" x1="10" y1="10" x2="30" y2="30" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#F5A623" />
-          <stop offset="100%" stopColor="#D4851F" />
-        </linearGradient>
-      </defs>
-      {/* Vault / shield shape */}
-      <path d="M20 8l10 4v8c0 6-4 10-10 12-6-2-10-6-10-12v-8l10-4z" fill="url(#eveVaultGrad)" opacity="0.9" />
-      {/* Inner keyhole */}
-      <circle cx="20" cy="18" r="3" fill="#0D0D0D" />
-      <rect x="19" y="20" width="2" height="5" rx="1" fill="#0D0D0D" />
-    </svg>
-  );
-}
+// EVE Frontier Vault, Sui Wallet, and Suiet use real icons from /wallet-icons/
+const WALLET_ICON_PATHS = {
+  eveVault: "/wallet-icons/eve vault.png",
+  suiWallet: "/wallet-icons/sui wallet.png",
+  suiet: "/wallet-icons/suiet.png",
+} as const;
 
 function GlassIcon() {
   return (
@@ -98,21 +72,21 @@ function ManualEntryIcon() {
   );
 }
 
-const RECOMMENDED_WALLETS = [
+const RECOMMENDED_WALLETS: { name: string; url: string; icon: string | (() => React.JSX.Element) }[] = [
   {
     name: "EVE Frontier Vault",
-    url: "https://wallet.evefrontier.com",
-    icon: EVEFrontierVaultIcon,
+    url: "https://evevault.evefrontier.com/",
+    icon: WALLET_ICON_PATHS.eveVault,
   },
   {
     name: "Sui Wallet",
     url: "https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil",
-    icon: SuiWalletIcon,
+    icon: WALLET_ICON_PATHS.suiWallet,
   },
   {
     name: "Suiet",
     url: "https://chromewebstore.google.com/detail/suiet-sui-wallet/khpkpbbcccdmmclmpigdgddabeilkdpd",
-    icon: SuietIcon,
+    icon: WALLET_ICON_PATHS.suiet,
   },
   {
     name: "Ethos Wallet",
@@ -256,7 +230,7 @@ export default function WalletModal({ open, onClose }: Props) {
                             className="h-10 w-10 rounded-[10px]"
                           />
                         ) : (
-                          <SuiWalletIcon />
+                          <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#4DA2FF" /><text x="20" y="24" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">W</text></svg>
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
@@ -273,7 +247,6 @@ export default function WalletModal({ open, onClose }: Props) {
                 })}
 
                 {!hasInstalled && popularWallets.slice(0, 3).map((rw) => {
-                  const IconComp = rw.icon;
                   return (
                     <a
                       key={rw.name}
@@ -283,7 +256,11 @@ export default function WalletModal({ open, onClose }: Props) {
                       className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors hover:bg-white/6"
                     >
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[10px] bg-black/25">
-                        <IconComp />
+                        {typeof rw.icon === "string" ? (
+                          <WalletImg src={rw.icon} alt={rw.name} />
+                        ) : (
+                          <rw.icon />
+                        )}
                       </div>
                       <div className="min-w-0 flex-1 truncate text-[15px] font-semibold text-white">
                         {rw.name}
