@@ -58,6 +58,25 @@ function MartianIcon() {
   );
 }
 
+function EVEFrontierVaultIcon() {
+  return (
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+      <rect width="40" height="40" rx="10" fill="#0D0D0D" />
+      <defs>
+        <linearGradient id="eveVaultGrad" x1="10" y1="10" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#F5A623" />
+          <stop offset="100%" stopColor="#D4851F" />
+        </linearGradient>
+      </defs>
+      {/* Vault / shield shape */}
+      <path d="M20 8l10 4v8c0 6-4 10-10 12-6-2-10-6-10-12v-8l10-4z" fill="url(#eveVaultGrad)" opacity="0.9" />
+      {/* Inner keyhole */}
+      <circle cx="20" cy="18" r="3" fill="#0D0D0D" />
+      <rect x="19" y="20" width="2" height="5" rx="1" fill="#0D0D0D" />
+    </svg>
+  );
+}
+
 function GlassIcon() {
   return (
     <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
@@ -80,6 +99,11 @@ function ManualEntryIcon() {
 }
 
 const RECOMMENDED_WALLETS = [
+  {
+    name: "EVE Frontier Vault",
+    url: "https://wallet.evefrontier.com",
+    icon: EVEFrontierVaultIcon,
+  },
   {
     name: "Sui Wallet",
     url: "https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil",
