@@ -47,31 +47,49 @@ All computed scores are written on-chain to a shared Sui smart contract, making 
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                        FRONTIER PULSE                               │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  ┌───────────────┐    ┌───────────────┐    ┌───────────────────┐   │
-│  │  Frontend      │    │  Oracle       │    │  Smart Contract   │   │
-│  │  (Next.js)     │    │  Backend      │    │  (Sui Move)       │   │
-│  │                │    │  (Node.js)    │    │                   │   │
-│  │  Galaxy Map    │    │  Cron: 10min  │    │  PulseRegistry    │   │
-│  │  CHI Gauge     │◄──►│  Score Engine │──►│  ├─ Reputations   │   │
-│  │  Trust Compass │    │  Anomaly Det. │    │  ├─ Systems       │   │
-│  │  Alert Feed    │    │  Batch Writer │    │  ├─ CHI           │   │
-│  │  Wallet        │    │              │    │  └─ Endorsements  │   │
-│  └───────┬───────┘    └──────┬────────┘    └───────────────────┘   │
-│          │                   │                       ▲             │
-│          │                   │                       │             │
-│          ▼                   ▼                       │             │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │                    DATA SOURCES                              │   │
-│  │  EVE Frontier World API (REST)  ─── System topology, gates  │   │
-│  │  Sui Blockchain (GraphQL/RPC)   ─── Assemblies, killmails   │   │
-│  └─────────────────────────────────────────────────────────────┘   │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph FP["FRONTIER PULSE"]
+        subgraph FE["Frontend (Next.js)"]
+            GM["Galaxy Map"]
+            CHI_G["CHI Gauge"]
+            TC["Trust Compass"]
+            AF["Alert Feed"]
+            WL["Wallet"]
+        end
+
+        subgraph OB["Oracle Backend (Node.js)"]
+            CR["Cron: 10min"]
+            SE["Score Engine"]
+            AD["Anomaly Detection"]
+            BW["Batch Writer"]
+        end
+
+        subgraph SC["Smart Contract (Sui Move)"]
+            PR["PulseRegistry"]
+            REP["Reputations"]
+            SYS["Systems"]
+            CHI_S["CHI"]
+            END_S["Endorsements"]
+            PR --- REP & SYS & CHI_S & END_S
+        end
+    end
+
+    subgraph DS["DATA SOURCES"]
+        WA["EVE Frontier World API (REST)\nSystem topology, gates"]
+        SUI["Sui Blockchain (GraphQL/RPC)\nAssemblies, killmails"]
+    end
+
+    FE <-->|"Read/Write"| SC
+    OB -->|"Batch PTBs"| SC
+    DS -->|"Ingest"| OB
+    DS -->|"Fallback"| FE
+
+    style FP fill:#0d1117,stroke:#30363d,color:#e6edf3
+    style FE fill:#1a1e2e,stroke:#4DA2FF,color:#e6edf3
+    style OB fill:#1a1e2e,stroke:#f0a830,color:#e6edf3
+    style SC fill:#1a1e2e,stroke:#3fb68b,color:#e6edf3
+    style DS fill:#161b22,stroke:#30363d,color:#e6edf3
 ```
 
 ---
@@ -276,48 +294,44 @@ All addresses are on **Sui Testnet**.
 
 ## Data Flow
 
-```
-EVE Frontier World API                    Sui Blockchain (GraphQL)
-       │                                         │
-       │  ~800 solar systems                      │  Assemblies, Killmails,
-       │  (topology, gates)                       │  Characters, Events
-       │                                         │
-       └──────────────┬──────────────────────────┘
-                      │
-                      ▼
-              ┌──────────────┐
-              │   ORACLE     │  Every 10 minutes
-              │   BACKEND    │
-              │              │
-              │  Enrich →    │  Merge World API + Sui data
-              │  Score  →    │  Compute health, reputation, CHI
-              │  Detect →    │  Identify anomalies
-              │  Write  →    │  Batch PTBs to smart contract
-              └──────┬───────┘
-                     │
-                     ▼
-              ┌──────────────┐
-              │   SUI SMART  │  PulseRegistry (shared object)
-              │   CONTRACT   │
-              │              │
-              │  Reputations │  Table<address, PlayerReputation>
-              │  Systems     │  Table<u64, SystemHealth>
-              │  CHI         │  CivilizationHealthIndex
-              │  Endorsements│  Table<u64, u64>
-              │  Events      │  Anomaly alerts (gas-efficient)
-              └──────┬───────┘
-                     │
-                     ▼
-              ┌──────────────┐
-              │   FRONTEND   │  API routes with fallback chain
-              │   DASHBOARD  │
-              │              │
-              │  1. Railway Oracle (fast, pre-computed)
-              │  2. Sui RPC (on-chain PulseRegistry)
-              │  3. Sui GraphQL (live activity)
-              │  4. World API (static topology)
-              │  5. Deterministic fallback
-              └──────────────┘
+```mermaid
+flowchart TD
+    subgraph Sources["DATA SOURCES"]
+        WA["EVE Frontier World API\n~800 solar systems\n(topology, gates)"]
+        SUI_GQL["Sui Blockchain (GraphQL)\nAssemblies, Killmails,\nCharacters, Events"]
+    end
+
+    subgraph Oracle["ORACLE BACKEND — Every 10 minutes"]
+        direction LR
+        E["Enrich"] -->|"Merge World API + Sui data"| S["Score"]
+        S -->|"Compute health, reputation, CHI"| D["Detect"]
+        D -->|"Identify anomalies"| W["Write"]
+    end
+
+    subgraph Contract["SUI SMART CONTRACT — PulseRegistry (shared object)"]
+        REP2["Reputations\nTable‹address, PlayerReputation›"]
+        SYS2["Systems\nTable‹u64, SystemHealth›"]
+        CHI2["CHI\nCivilizationHealthIndex"]
+        END2["Endorsements\nTable‹u64, u64›"]
+        EVT["Events\nAnomaly alerts (gas-efficient)"]
+    end
+
+    subgraph Frontend["FRONTEND DASHBOARD — API routes with fallback chain"]
+        F1["1. Railway Oracle\n(fast, pre-computed)"]
+        F2["2. Sui RPC\n(on-chain PulseRegistry)"]
+        F3["3. Sui GraphQL\n(live activity)"]
+        F4["4. World API\n(static topology)"]
+        F5["5. Deterministic fallback"]
+    end
+
+    Sources -->|"Ingest"| Oracle
+    Oracle -->|"Batch PTBs"| Contract
+    Contract -->|"Read"| Frontend
+
+    style Sources fill:#161b22,stroke:#30363d,color:#e6edf3
+    style Oracle fill:#1a1e2e,stroke:#f0a830,color:#e6edf3
+    style Contract fill:#1a1e2e,stroke:#3fb68b,color:#e6edf3
+    style Frontend fill:#1a1e2e,stroke:#4DA2FF,color:#e6edf3
 ```
 
 ---
